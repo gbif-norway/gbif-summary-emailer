@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  main:
+    build: .
+    container_name: stats-email 
+    image: gbifnorway/stats-email:latest
+    platform: linux/amd64
+    env_file: .env
+    restart: on-failure
+    entrypoint: /bin/bash
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./code:/srv
