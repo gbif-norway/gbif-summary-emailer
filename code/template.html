@@ -116,8 +116,8 @@
   <!--[if mso]><style>.v-button {background: transparent !important;}</style><![endif]-->
 <div class="v-text-align" align="center">
   <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://unlayer.com" style="height:54px; v-text-anchor:middle; width:174px;" arcsize="7.5%"  stroke="f" fillcolor="#389638"><w:anchorlock/><center style="color:#FFFFFF;"><![endif]-->
-    <a href="https://unlayer.com" target="_blank" class="v-button v-size-width v-font-size" style="box-sizing: border-box;display: inline-block;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #389638; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:30%; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;font-size: 14px;">
-      <span style="display:block;padding:10px 20px;line-height:120%;"><span style="line-height: 16.8px;"><a href="{{ all_datasets_link }}">View your datasets on GBIF</a></span></span>
+    <a href="{{ all_datasets_link }}" class="v-button v-size-width v-font-size" style="box-sizing: border-box;display: inline-block;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #389638; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:30%; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;font-size: 14px;">
+      <span style="display:block;padding:10px 20px;line-height:120%;"><span style="line-height: 16.8px;">View your datasets on GBIF</span></span>
     </a>
     <!--[if mso]></center></v:roundrect><![endif]-->
 </div>
@@ -136,7 +136,7 @@
   </div>
   </div>
 
-{% for key, dataset in datasets.items() %}
+{% for dataset in datasets %}
 <div class="u-row-container" style="padding: 0px;background-color: transparent">
   <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;">
     <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
@@ -149,12 +149,12 @@
 <table id="u_content_image_2" style="font-family:'Raleway',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
   <tbody>
     <tr>
-      <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:50px 0px;font-family:'Raleway',sans-serif;" align="left">
-        
+      <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:20px 0px;font-family:'Raleway',sans-serif;" align="left">
+
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
     <td class="v-text-align" style="padding-right: 0px;padding-left: 0px;" align="center">
-      <img align="center" border="0" src="{{ dataset['stats_img'] }}" alt="image" title="image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 88%;max-width: 264px;" width="264" class="v-src-width v-src-max-width"/>
+      <a href="https://{{ dataset['stats_image'] }}"><img align="center" border="0" src="https://{{ dataset['stats_image'] }}" alt="image" title="image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 88%;max-width: 264px;" width="264" class="v-src-width v-src-max-width"/></a>
     </td>
   </tr>
 </table>
@@ -176,11 +176,11 @@
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:20px 10px 10px;font-family:'Raleway',sans-serif;" align="left">
         
   <div class="v-text-align v-font-size" style="font-size: 17px; line-height: 130%; text-align: left; word-wrap: break-word;">
-    <p style="line-height: 130%;"><a rel="noopener" href="https://www.gbif.org/dataset/{{ key }}" target="_blank">{{ dataset['title'] }}</a></p>
+    <p style="line-height: 130%;"><a rel="noopener" href="https://www.gbif.org/dataset/{{ dataset['key'] }}" target="_blank">{{ dataset['title'] }}</a></p>
 <p style="line-height: 130%;"> </p>
-<p style="line-height: 130%;">🚀 {{ dataset['citations_count'] }} new citations </p>
+<p style="line-height: 130%;">🚀 {{ dataset['citation_count'] }} citations </p>
 <p style="line-height: 130%;">🌱 {{ dataset['new_records'] }} new records published</p>
-<p style="line-height: 130%;">🙈 <span style="color: #e03e2d; line-height: 22.1px;"><strong>Important</strong></span>! {{ dataset['bionomia_count'] }} new people IDs added in Bionomia and not present in your source data. <a href="{{ dataset['bionomia_url'] }}" style="text-decoration: underline; line-height: 22.1px; color: #0e04f1;"><span style="line-height: 22.1px;"><strong>Review these</strong></span></a></p>
+<p style="line-height: 130%;">🙈 <span style="color: #e03e2d; line-height: 22.1px;"><strong>Important</strong></span>! {{ dataset['bionomia_count'] }} new people IDs added in Bionomia are not present in your Collections Management System. <a href="{{ dataset['bionomia_url'] }}" style="text-decoration: underline; line-height: 22.1px; color: #0e04f1;"><span style="line-height: 22.1px;"><strong>Review these</strong></span></a></p>
   </div>
 
       </td></tr></tbody></table>

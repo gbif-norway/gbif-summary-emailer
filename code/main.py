@@ -40,7 +40,6 @@ def get_records_difference(dwca_endpoint, target_date):
         )
         target_count = filtered_sorted_data[0] if filtered_sorted_data else min(ds_json, key=lambda x: datetime.strptime(x[1], '%Y-%m-%d %H:%M:%S'))
         target_count = int(target_count[2].replace(',', '').replace('.', ''))
-        import pdb; pdb.set_trace()
         return most_recent_count - target_count  # Note this number could be negative
 
 def get_missing_attributions_bionomia(key):
@@ -64,7 +63,7 @@ def get_missing_attributions_bionomia(key):
     os.remove(f'./{file}')
 
     merged_data = merged_data.merge(frequent_values.rename('frequency'), left_on='id', right_index=True)
-    title_text = 'ORCIDs missing from source<br><sub>Top 5 people identifiers by number of new attributions in Bionomia</sub>'
+    title_text = 'ORCIDs missing from Collections Management System<br><sub>Top 5 people identifiers by number of new attributions in Bionomia</sub>'
     fig = px.bar(merged_data, x='name', y='frequency', title=title_text, color='name')
     fig.update_layout(
         xaxis_title='',
@@ -84,24 +83,13 @@ def save_figure(fig, key, minio_client):
     os.remove(image_name)
     return f'{os.getenv("MINIO_URI")}/misc/static/{key}/{image_name}'
 
-# def get_dataset_publication_info(dwca_endpoint):
-#     ipt, short_name = dwca_endpoint.split('/archive.do?r=')
-#     inventory_response = requests.get(f'{ipt}/inventory/dataset')
-#     inventory = inventory_response.json()['registeredResources']
-#     dataset_info = next((d for d in inventory if d.get('dwca') == dwca_endpoint), None)
-#     return {'lastPublished': dataset_info['lastPublished'],
-#             'records': dataset_info['records'],
-#             'recordsByExtension': dataset_info['recordsByExtension'],
-#             'key': dataset_info['gbifKey'],
-#             'ipt_url': f'{ipt}/resource?r={short_name}'}
-
 def get_curator_info():
     base_url = 'http://api.gbif.org/v1'
     datasets_info = {}
 
     response = requests.get(f'{base_url}/dataset/search?publishingCountry=NO&subtype=SPECIMEN')
     if response.status_code == 200:
-        datasets = response.json()['results'][0:1]
+        datasets = response.json()['results'][0:2]
         for dataset in datasets:
             mc_client = Minio(os.getenv('MINIO_URI'), access_key=os.getenv('MINIO_ACCESS_KEY'), secret_key=os.getenv('MINIO_SECRET_KEY'))
             dataset_info = requests.get(f'{base_url}/dataset/{dataset["key"]}').json()
@@ -138,7 +126,6 @@ def send_emails():
     curators = get_curator_info()
     for email, info in curators.items():
         send_email(info['name'], email, info['datasets'])
-    import pdb; pdb.set_trace()
 
 send_emails()
 
