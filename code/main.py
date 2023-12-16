@@ -46,10 +46,13 @@ def get_missing_attributions_bionomia(key):
     file = 'missing_attributions.csv'
     url = f'https://bionomia.net/dataset/{key}/{file}.zip'
     response = requests.get(url)
+    if response.status_code != 200:
+        return None, 0, None # This doesn't work
+
     zipfile_obj = zipfile.ZipFile(io.BytesIO(response.content))
     zipfile_obj.extractall('.')
     df = pd.read_csv(f'./{file}', usecols=['user_id'])
-    frequent_values = df['user_id'].value_counts().nlargest(5)
+    frequent_values = df['user_id'].value_counts().nlargest(6)
     os.remove(f'./{file}')
 
     file = 'users.csv'
@@ -89,7 +92,7 @@ def get_curator_info():
 
     response = requests.get(f'{base_url}/dataset/search?publishingCountry=NO&subtype=SPECIMEN')
     if response.status_code == 200:
-        datasets = response.json()['results'][0:2]
+        datasets = response.json()['results'][4:6]
         for dataset in datasets:
             mc_client = Minio(os.getenv('MINIO_URI'), access_key=os.getenv('MINIO_ACCESS_KEY'), secret_key=os.getenv('MINIO_SECRET_KEY'))
             dataset_info = requests.get(f'{base_url}/dataset/{dataset["key"]}').json()
@@ -98,7 +101,9 @@ def get_curator_info():
             if contacts:
                 dwca_endpoint = next((d['url'] for d in dataset_info['endpoints'] if '/archive.do?r=' in d['url']), None)
                 stats_image, bionomia_count, bionomia_url = get_missing_attributions_bionomia(dataset['key'])
-                stats_image_url = save_figure(stats_image, dataset['key'], mc_client)
+                stats_image_url = 'placeholder'
+                if stats_image:
+                    stats_image_url = save_figure(stats_image, dataset['key'], mc_client)
                 dataset_details = {
                     'citation_count': citation_count,
                     'title': dataset_info['title'],
