@@ -13,6 +13,9 @@ def send_email(name, email, datasets):
     template = Template(open('template.html').read())
     print(len(datasets))
     rendered_html = template.render(name=name, all_datasets_link='https://www.gbif.org/occurrence/search?' + '&'.join([f'dataset_key={k["key"]}' for k in datasets]), datasets=datasets,date=datetime.now().strftime("%B %Y"))
+    # with open('rendered_html.html', 'w') as file:
+        # file.write(rendered_html)
+    import pdb; pdb.set_trace()
     msg.set_content(rendered_html, subtype='html')
 
     with smtplib.SMTP(os.getenv('SMTP_SERVER'), 587) as smtp:

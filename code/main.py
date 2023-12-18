@@ -47,7 +47,7 @@ def get_missing_attributions_bionomia(key):
     url = f'https://bionomia.net/dataset/{key}/{file}.zip'
     response = requests.get(url)
     if response.status_code != 200:
-        return None, 0, None # This doesn't work
+        return None, 0, None
 
     zipfile_obj = zipfile.ZipFile(io.BytesIO(response.content))
     zipfile_obj.extractall('.')
@@ -92,7 +92,9 @@ def get_curator_info():
 
     response = requests.get(f'{base_url}/dataset/search?publishingCountry=NO&subtype=SPECIMEN')
     if response.status_code == 200:
-        datasets = response.json()['results'][4:6]
+        datasets = response.json()['results']
+        print(len(datasets))
+        print('----')
         for dataset in datasets:
             mc_client = Minio(os.getenv('MINIO_URI'), access_key=os.getenv('MINIO_ACCESS_KEY'), secret_key=os.getenv('MINIO_SECRET_KEY'))
             dataset_info = requests.get(f'{base_url}/dataset/{dataset["key"]}').json()
@@ -101,7 +103,7 @@ def get_curator_info():
             if contacts:
                 dwca_endpoint = next((d['url'] for d in dataset_info['endpoints'] if '/archive.do?r=' in d['url']), None)
                 stats_image, bionomia_count, bionomia_url = get_missing_attributions_bionomia(dataset['key'])
-                stats_image_url = 'placeholder'
+                stats_image_url = 'storage.gbif-no.sigma2.no/misc/static/stats-email-dataset-placeholder.png'
                 if stats_image:
                     stats_image_url = save_figure(stats_image, dataset['key'], mc_client)
                 dataset_details = {
@@ -111,7 +113,8 @@ def get_curator_info():
                     'bionomia_count': bionomia_count,
                     'stats_image': stats_image_url,
                     'bionomia_url': bionomia_url,
-                    'key': dataset['key']
+                    'key': dataset['key'],
+                    'check_contacts_link': dwca_endpoint.replace('archive.do', 'resource') + '#anchor-contacts'
                 }
                 
                 for contact in contacts:
@@ -123,12 +126,14 @@ def get_curator_info():
                                 'datasets': [dataset_details]
                             }
                         else:
-                            datasets_info[email]['datasets'].append(dataset_details)
+                            if dataset['key'] not in [d['key'] for d in datasets_info[email]['datasets']]:
+                                datasets_info[email]['datasets'].append(dataset_details)
 
     return datasets_info
 
 def send_emails():
     curators = get_curator_info()
+    print(f'Total number of emails going out: { len(curators) }')
     for email, info in curators.items():
         send_email(info['name'], email, info['datasets'])
 

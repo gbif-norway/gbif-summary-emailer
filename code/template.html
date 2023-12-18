@@ -175,13 +175,14 @@
     <tr>
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:20px 10px 10px;font-family:'Raleway',sans-serif;" align="left">
         
-  <div class="v-text-align v-font-size" style="font-size: 17px; line-height: 130%; text-align: left; word-wrap: break-word;">
+  <div class="v-text-align v-font-size" style="font-size: 16px; line-height: 130%; text-align: left; word-wrap: break-word;">
     <p style="line-height: 130%;"><a rel="noopener" href="https://www.gbif.org/dataset/{{ dataset['key'] }}" target="_blank">{{ dataset['title'] }}</a></p>
-<p style="line-height: 130%;"> </p>
-<p style="line-height: 130%;">🚀 {{ dataset['citation_count'] }} citations </p>
-<p style="line-height: 130%;">🌱 {{ dataset['new_records'] }} new records published</p>
-{% if 'bionomia_count' in dataset %}
-<p style="line-height: 130%;">🙈 <span style="color: #e03e2d; line-height: 22.1px;"><strong>Important</strong></span>! {{ dataset['bionomia_count'] }} new people IDs added in Bionomia to your dataset are not present in your Collections Management System. <a href="{{ dataset['bionomia_url'] }}" style="text-decoration: underline; line-height: 22.1px; color: #0e04f1;"><span style="line-height: 22.1px;"><strong>Review these</strong></span></a></p>
+<p style="line-height: 100%;"> </p>
+<p style="line-height: 130%;"><a href="https://www.gbif.org/resource/search?contentType=literature&gbifDatasetKey={{ dataset['key'] }}">🚀</a> {{ dataset['citation_count'] }} citations </p>
+<p style="line-height: 130%;"><a href="https://www.gbif.org/occurrence/search?dataset_key={{ dataset['key'] }}">🌱</a> {{ dataset['new_records'] }} new records published</p>
+<p style="line-height: 130%;">📨 Are <a href="{{ dataset['check_contacts_link'] }}"  style="text-decoration: underline; color: #0e04f1;">contact details</a> still correct?</p>
+{% if 'bionomia_count' in dataset and dataset['bionomia_count'] > 0 %}
+<p style="line-height: 130%;">🙈 <span style="color: #e03e2d; line-height: 22.1px;"><strong>* Important</strong></span>! {{ dataset['bionomia_count'] }} new Bionomia IDs <a href="{{ dataset['bionomia_url'] }}" style="text-decoration: underline; line-height: 22.1px; color: #0e04f1;"><span style="line-height: 22.1px;"><strong>Review these</strong></span></a></p>
 {% endif %}
   </div>
 
@@ -193,6 +194,36 @@
     </div></div></div>
 {% endfor %}
 
+{% if datasets | selectattr('bionomia_count', 'defined') | selectattr('bionomia_count', '>', 0) | list | length > 0 %}
+<div class="u-row-container" style="padding: 0px;background-color: transparent">
+  <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;">
+  <table id="u_content_text_2" style="font-family:'Raleway',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+    <tbody>
+      <tr>
+        <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:20px 50px 10px;font-family:'Raleway',sans-serif; background-color: #FFFFFF" align="left">
+          
+    <div class="v-text-align v-font-size" style="font-size: 16px; line-height: 140%; text-align: left; word-wrap: break-word;">
+      <p style="line-height: 140%;"><span style="color: #e03e2d; line-height: 22.1px;"><strong>* New people IDs (ORCIDs or Wikidata QIDs) are added in Bionomia to your dataset which are not present in your Collections Management System.</strong></span></p>
+      <p style="line-height: 140%; font-weight: bold; padding-bottom: 20px; padding-top: 20px;">
+        <svg height="32px" viewBox="0 0 16 16" width="32px" xmlns="http://www.w3.org/2000/svg" style="vertical-align: bottom;">
+          <g>
+            <path d="M 16 8 C 16 12.417969 12.417969 16 8 16 C 3.582031 16 0 12.417969 0 8 C 0 3.582031 3.582031 0 8 0 C 12.417969 0 16 3.582031 16 8 Z M 16 8 " style="stroke:none;fill-rule:nonzero;fill:rgb(12.156863%,44.313725%,17.254902%);fill-opacity:1;"></path>
+            <path d="M 4.59375 13.625 L 4.625 13.625 C 5.042969 12.621094 5.601562 11.660156 6.085938 10.6875 C 6.21875 10.417969 6.402344 9.78125 6.664062 9.625 C 6.769531 9.5625 6.941406 9.597656 7.0625 9.59375 C 7.304688 9.585938 7.574219 9.554688 7.8125 9.503906 C 8.777344 9.292969 9.6875 8.933594 10.46875 8.3125 C 10.722656 8.109375 11.035156 7.886719 11.1875 7.59375 L 8.6875 7.59375 L 9.84375 6.894531 L 12.1875 5.5625 L 12.1875 5.53125 L 9.71875 5.53125 L 10.78125 4.605469 L 12.71875 3 C 12.53125 2.921875 12.261719 2.96875 12.0625 2.96875 C 11.421875 2.96875 10.753906 3.074219 10.125 3.199219 C 9.53125 3.320312 8.914062 3.496094 8.375 3.777344 C 4.855469 5.628906 4.59375 10.097656 4.59375 13.625 Z M 4.59375 13.625 " style="stroke:none;fill-rule:nonzero;fill:rgb(100%,100%,100%);fill-opacity:1;"></path>
+          </g>
+        </svg>
+        <span style="font-size: 18px;"> What is Bionomia? </span>
+      </p>
+      <p style="line-height: 140%; padding-bottom: 10px;">Members of the public log into <a href="https://bionomia.net/">Bionomia</a>, look at a specimen record which is missing a person ID, and explicitly specify who the collector is by adding an ORCID or Wikidata QID.</p>
+      <p style="line-height: 140%; padding-bottom: 10px;">For example, a specimen where the collector is recorded simply as "L. Aarvik" can be linked to <a href="https://orcid.org/0000-0002-0112-8837">https://orcid.org/0000-0002-0112-8837</a>, so we know this specimen was collected by Leif Aarvik who works at the University of Oslo, and not Lars Aarvik who was born in 1892 (<a href="https://bionomia.net/Q106823278">https://bionomia.net/Q106823278</a>). </p>
+      <p style="line-height: 140%; padding-bottom: 10px;">Sometimes, collection management systems (e.g. MUSIT or Corema) are missing these explicit links to IDs, and it's useful to import them in from Bionomia. We can help you with this process. The first step is to review the attributions added in Bionomia and see if there are any you think are incorrect, then contact helpdesk@gbif.no.</p>
+    </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div></div> 
+{% endif %}
+
 <div class="u-row-container" style="padding: 0px;background-color: transparent">
   <div class="u-row" style="margin: 0 auto;min-width: 320px;max-width: 600px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;">
     <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
@@ -203,66 +234,6 @@
   <div style="background-color: #407bff;height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
   <!--[if (!mso)&(!IE)]><!--><div class="v-col-border" style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;"><!--<![endif]-->
   
-<table id="u_content_social_1" style="font-family:'Raleway',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-  <tbody>
-    <tr>
-      <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:60px 10px 10px;font-family:'Raleway',sans-serif;" align="left">
-        
-<div align="center">
-  <div style="display: table; max-width:167px;">
-  <!--[if (mso)|(IE)]><table width="167" cellpadding="0" cellspacing="0" border="0"><tr><td style="border-collapse:collapse;" align="center"><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse; mso-table-lspace: 0pt;mso-table-rspace: 0pt; width:167px;"><tr><![endif]-->
-  
-    
-    <!--[if (mso)|(IE)]><td width="32" style="width:32px; padding-right: 10px;" valign="top"><![endif]-->
-    <table align="left" border="0" cellspacing="0" cellpadding="0" width="32" height="32" style="width: 32px !important;height: 32px !important;display: inline-block;border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;margin-right: 10px">
-      <tbody><tr style="vertical-align: top"><td align="left" valign="middle" style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
-        <a href="https://www.facebook.com/unlayer" title="Facebook" target="_blank">
-          <img src="images/image-2.png" alt="Facebook" title="Facebook" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
-        </a>
-      </td></tr>
-    </tbody></table>
-    <!--[if (mso)|(IE)]></td><![endif]-->
-    
-    <!--[if (mso)|(IE)]><td width="32" style="width:32px; padding-right: 10px;" valign="top"><![endif]-->
-    <table align="left" border="0" cellspacing="0" cellpadding="0" width="32" height="32" style="width: 32px !important;height: 32px !important;display: inline-block;border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;margin-right: 10px">
-      <tbody><tr style="vertical-align: top"><td align="left" valign="middle" style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
-        <a href="https://twitter.com/unlayerapp" title="Twitter" target="_blank">
-          <img src="images/image-5.png" alt="Twitter" title="Twitter" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
-        </a>
-      </td></tr>
-    </tbody></table>
-    <!--[if (mso)|(IE)]></td><![endif]-->
-    
-    <!--[if (mso)|(IE)]><td width="32" style="width:32px; padding-right: 10px;" valign="top"><![endif]-->
-    <table align="left" border="0" cellspacing="0" cellpadding="0" width="32" height="32" style="width: 32px !important;height: 32px !important;display: inline-block;border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;margin-right: 10px">
-      <tbody><tr style="vertical-align: top"><td align="left" valign="middle" style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
-        <a href="https://www.linkedin.com/company/unlayer/mycompany/" title="LinkedIn" target="_blank">
-          <img src="images/image-4.png" alt="LinkedIn" title="LinkedIn" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
-        </a>
-      </td></tr>
-    </tbody></table>
-    <!--[if (mso)|(IE)]></td><![endif]-->
-    
-    <!--[if (mso)|(IE)]><td width="32" style="width:32px; padding-right: 0px;" valign="top"><![endif]-->
-    <table align="left" border="0" cellspacing="0" cellpadding="0" width="32" height="32" style="width: 32px !important;height: 32px !important;display: inline-block;border-collapse: collapse;table-layout: fixed;border-spacing: 0;mso-table-lspace: 0pt;mso-table-rspace: 0pt;vertical-align: top;margin-right: 0px">
-      <tbody><tr style="vertical-align: top"><td align="left" valign="middle" style="word-break: break-word;border-collapse: collapse !important;vertical-align: top">
-        <a href="https://www.instagram.com/unlayer_official/" title="Instagram" target="_blank">
-          <img src="images/image-3.png" alt="Instagram" title="Instagram" width="32" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: block !important;border: none;height: auto;float: none;max-width: 32px !important">
-        </a>
-      </td></tr>
-    </tbody></table>
-    <!--[if (mso)|(IE)]></td><![endif]-->
-    
-    
-    <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
-  </div>
-</div>
-
-      </td>
-    </tr>
-  </tbody>
-</table>
-
 <table id="u_content_text_6" style="font-family:'Raleway',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
   <tbody>
     <tr>
@@ -279,7 +250,7 @@
   </tbody>
 </table>
 
-<table style="font-family:'Raleway',sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+<table style="font-family:'Raleway',sans-serif; background-color: #ffffff;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
   <tbody>
     <tr>
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:0px;font-family:'Raleway',sans-serif;" align="left">
@@ -307,9 +278,7 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
     <td class="v-text-align" style="padding-right: 0px;padding-left: 0px;" align="center">
-      
-      <img align="center" border="0" src="images/image-6.png" alt="image" title="image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 149px;" width="149" class="v-src-width v-src-max-width"/>
-      
+      <img align="center" border="0" src="https://www.gbif.no/vrtx/decorating/resources/images/logo.png" alt="GBIF Norway logo" title="GBIF Norway logo" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 149px;" width="149" class="v-src-width v-src-max-width"/>
     </td>
   </tr>
 </table>
