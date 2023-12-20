@@ -66,7 +66,7 @@ def get_missing_attributions_bionomia(key):
     os.remove(f'./{file}')
 
     merged_data = merged_data.merge(frequent_values.rename('frequency'), left_on='id', right_index=True)
-    title_text = 'ORCIDs missing from Collections Management System<br><sub>Top 5 people identifiers by number of new attributions in Bionomia</sub>'
+    title_text = 'ORCIDs missing from Collections Management System<br><sub>Top 5 IDs by number of new attributions in Bionomia - Identifiers not present in the Collections Management System</sub>'
     fig = px.bar(merged_data, x='name', y='frequency', title=title_text, color='name')
     fig.update_layout(
         xaxis_title='',
@@ -104,8 +104,8 @@ def get_curator_info():
                 dwca_endpoint = next((d['url'] for d in dataset_info['endpoints'] if '/archive.do?r=' in d['url']), None)
                 stats_image, bionomia_count, bionomia_url = get_missing_attributions_bionomia(dataset['key'])
                 stats_image_url = 'storage.gbif-no.sigma2.no/misc/static/stats-email-dataset-placeholder.png'
-                if stats_image:
-                    stats_image_url = save_figure(stats_image, dataset['key'], mc_client)
+                # if stats_image:
+                    # stats_image_url = save_figure(stats_image, dataset['key'], mc_client)
                 dataset_details = {
                     'citation_count': citation_count,
                     'title': dataset_info['title'],
@@ -138,5 +138,3 @@ def send_emails():
         send_email(info['name'], email, info['datasets'])
 
 send_emails()
-
-    
