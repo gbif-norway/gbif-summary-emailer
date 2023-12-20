@@ -98,9 +98,9 @@
       <td class="v-container-padding-padding" style="overflow-wrap:break-word;word-break:break-word;padding:20px 50px 10px;font-family:'Raleway',sans-serif;" align="left">
         
   <div class="v-text-align v-font-size" style="font-size: 16px; line-height: 140%; text-align: left; word-wrap: break-word;">
-    <p style="line-height: 140%;">Hi {{ name }},</p>
+    <p style="line-height: 140%;">Dear {{ name }},</p>
 <p style="line-height: 140%;"> </p>
-<p style="line-height: 140%;">This is your {{ date }} update summary of the datasets you have published on GBIF, the Global Biodiversity Information Facility. Thank you for publishing your data and contributing to Open Science!</p>
+<p style="line-height: 140%;">This is your {{ date }} update summary of the datasets you have published on GBIF, the Global Biodiversity Information Facility. <strong>Thank you for publishing your data and contributing to Open Science!</strong></p>
   </div>
 
       </td>
@@ -154,7 +154,7 @@
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tr>
     <td class="v-text-align" style="padding-right: 0px;padding-left: 0px;" align="center">
-      <a href="https://{{ dataset['stats_image'] }}"><img align="center" border="0" src="https://{{ dataset['stats_image'] }}" alt="image" title="image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 88%;max-width: 264px;" width="264" class="v-src-width v-src-max-width"/></a>
+      <img align="center" border="0" src="https://{{ dataset['stats_image'] }}" alt="image" title="image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 88%;max-width: 264px;" width="264" class="v-src-width v-src-max-width"/>
     </td>
   </tr>
 </table>
@@ -178,8 +178,8 @@
   <div class="v-text-align v-font-size" style="font-size: 16px; line-height: 130%; text-align: left; word-wrap: break-word;">
     <p style="line-height: 130%;"><a rel="noopener" href="https://www.gbif.org/dataset/{{ dataset['key'] }}" target="_blank">{{ dataset['title'] }}</a></p>
 <p style="line-height: 100%;"> </p>
-<p style="line-height: 130%;"><a href="https://www.gbif.org/resource/search?contentType=literature&gbifDatasetKey={{ dataset['key'] }}">🚀</a> {{ dataset['citation_count'] }} citations </p>
-<p style="line-height: 130%;"><a href="https://www.gbif.org/occurrence/search?dataset_key={{ dataset['key'] }}">🌱</a> {{ dataset['new_records'] }} new records published</p>
+<p style="line-height: 130%;"><a href="https://www.gbif.org/resource/search?contentType=literature&gbifDatasetKey={{ dataset['key'] }}">🚀</a> {{ dataset['citation_count'] }} total citations </p>
+<p style="line-height: 130%;"><a href="https://www.gbif.org/occurrence/search?dataset_key={{ dataset['key'] }}">🌱</a> {{ dataset['new_records'] }} new records this year</p>
 <p style="line-height: 130%;">📨 Are <a href="{{ dataset['check_contacts_link'] }}"  style="text-decoration: underline; color: #0e04f1;">contact details</a> still correct?</p>
 {% if 'bionomia_count' in dataset and dataset['bionomia_count'] > 0 %}
 <p style="line-height: 130%;">🙈 <span style="color: #e03e2d; line-height: 22.1px;"><strong>* Important</strong></span>! {{ dataset['bionomia_count'] }} new Bionomia IDs <a href="{{ dataset['bionomia_url'] }}" style="text-decoration: underline; line-height: 22.1px; color: #0e04f1;"><span style="line-height: 22.1px;"><strong>Review these</strong></span></a></p>
@@ -214,8 +214,8 @@
         <span style="font-size: 18px;"> What is Bionomia? </span>
       </p>
       <p style="line-height: 140%; padding-bottom: 10px;">Members of the public log into <a href="https://bionomia.net/">Bionomia</a>, look at a specimen record which is missing a person ID, and explicitly specify who the collector is by adding an ORCID or Wikidata QID.</p>
-      <p style="line-height: 140%; padding-bottom: 10px;">For example, a specimen where the collector is recorded simply as "H. Printz" can be linked to <a href="https://bionomia.net/Q21313999">H. Printz</a>, so we know this specimen was collected by Henrik Printz born 1888, and not Hans Printz born 1817 (<a href="https://bionomia.net/Q15091583">https://bionomia.net/Q15091583</a>). </p>
-      <p style="line-height: 140%; padding-bottom: 10px;">Sometimes, collection management systems (e.g. MUSIT or Corema) are missing these explicit links to IDs, and it's useful to import them in from Bionomia. We can help you with this process. The first step is to review the attributions added in Bionomia and see if there are any you think are incorrect, then contact helpdesk@gbif.no.</p>
+      <p style="line-height: 140%; padding-bottom: 10px;">For example, a specimen where the collector is recorded simply as "H. Printz" can be linked to <a href="https://bionomia.net/Q21313999">H. Printz</a>, so we know this specimen was collected by Henrik Printz born 1888 (<a href="https://bionomia.net/Q21313999">https://bionomia.net/Q21313999</a>), and not Hans Printz born 1817 (<a href="https://bionomia.net/Q15091583">https://bionomia.net/Q15091583</a>). </p>
+      <p style="line-height: 140%; padding-bottom: 10px;">Sometimes, collection management systems (e.g. MUSIT or Corema) are missing these explicit links to IDs, and it's useful to import them in from Bionomia. We can help you with this process. The first step is to review the attributions added in Bionomia and see if there are any you think are incorrect, then contact <a href="mailto:helpdesk@gbif.no?subject=Bionomia-import">helpdesk@gbif.no</a>.</p>
     </div>
         </td>
       </tr>
